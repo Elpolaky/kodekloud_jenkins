@@ -26,10 +26,10 @@ pipeline {
         }    
         stage('Deployment') {
             steps {
-                echo 'input {
-                    message "Do you want to proceed further?"
-                    ok "Yes"
-                }'
+                // echo 'input {
+                //     message "Do you want to proceed further?"
+                //     ok "Yes"
+                // }'
                 echo "Running Deployment"
                 
             }
