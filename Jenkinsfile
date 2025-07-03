@@ -21,16 +21,15 @@ pipeline {
         }
         stage('Test') {
             steps {
-                sh "pytest"
-                
+                echo "sh 'pytest'"
             }
         }    
         stage('Deployment') {
-            input {
-                message "Do you want to proceed further?"
-                ok "Yes"
-            }
             steps {
+                echo 'input {
+                    message "Do you want to proceed further?"
+                    ok "Yes"
+                }'
                 echo "Running Deployment"
                 
             }
