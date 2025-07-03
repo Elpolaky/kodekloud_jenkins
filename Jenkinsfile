@@ -9,8 +9,8 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'userData', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
 
                     sh '''
-                    echo ${myuser}
-                    echo ${mypassword}
+                    echo user is : ${myuser}
+                    echo password is : ${mypassword}
                     '''
                 }
                 sh "pip install -r requirements.txt"
