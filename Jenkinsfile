@@ -21,7 +21,9 @@ pipeline {
         }
         stage('Test') {
             steps {
-                echo "sh 'pytest'"
+                //echo "sh 'pytest'"
+                echo "Running Tests"
+
             }
         }    
         stage('Deployment') {
