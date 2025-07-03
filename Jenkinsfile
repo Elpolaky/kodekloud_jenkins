@@ -13,6 +13,7 @@ pipeline {
                     echo password is : ${mypassword}
                     '''
                 }
+                sh "apt install python3-xyz"
                 sh "pip install -r requirements.txt"
             
             }
