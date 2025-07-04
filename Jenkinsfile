@@ -60,25 +60,47 @@ pipeline {
             }
         }
         stage('Deployment') {
-            input {
-                message " Deploy or not ?????"
-                ok "Yes"
-            }
             steps {
                 echo "Running Deployment"
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'MY_SSH_KEY', usernameVariable: 'username')]) {
-                    sh '''
-                    scp -i $MY_SSH_KEY -o StrictHostKeyChecking=no myapp.zip ${username}@${SERVER_IP}:/home/ubuntu/
-                    ssh -i $MY_SSH_KEY -o StrictHostKeyChecking=no ${username}@${SERVER_IP} << EOF
-                    unzip -o /home/ubuntu/myapp.zip -d /home/ubuntu/app/
-                    source app/venv/bin/activate
-                    cd /home/ubuntu/app/
-                    pip install -r requirements.txt
-                    sudo systemctl restart flaskapp.service
-                    EOF
-                    '''
+                    sh """
+                        echo "Copying to server: \$SERVER_IP"
+                        ssh-keyscan -H \$SERVER_IP >> ~/.ssh/known_hosts
+
+                        scp -i \$MY_SSH_KEY -o StrictHostKeyChecking=no myapp.zip \${username}@\${SERVER_IP}:/home/ubuntu/
+
+                        ssh -i \$MY_SSH_KEY -o StrictHostKeyChecking=no \${username}@\${SERVER_IP} << EOF
+                            unzip -o /home/ubuntu/myapp.zip -d /home/ubuntu/app/
+                            cd /home/ubuntu/app/
+                            source venv/bin/activate
+                            pip install -r requirements.txt
+                            sudo systemctl restart flaskapp.service
+                        EOF
+                    """
                 }
             }
-        } 
+        }
+
+        // stage('Deployment') {
+        //     input {
+        //         message " Deploy or not ?????"
+        //         ok "Yes"
+        //     }
+        //     steps {
+        //         echo "Running Deployment"
+        //         withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'MY_SSH_KEY', usernameVariable: 'username')]) {
+        //             sh '''
+        //             scp -i $MY_SSH_KEY -o StrictHostKeyChecking=no myapp.zip ${username}@${SERVER_IP}:/home/ubuntu/
+        //             ssh -i $MY_SSH_KEY -o StrictHostKeyChecking=no ${username}@${SERVER_IP} << EOF
+        //             unzip -o /home/ubuntu/myapp.zip -d /home/ubuntu/app/
+        //             source app/venv/bin/activate
+        //             cd /home/ubuntu/app/
+        //             pip install -r requirements.txt
+        //             sudo systemctl restart flaskapp.service
+        //             EOF
+        //             '''
+        //         }
+        //     }
+        // } 
     }
 }
