@@ -23,6 +23,21 @@ pipeline {
             
         //     }
         // }
+
+        stage('Check Environment') {
+            steps {
+                sh '''
+                    echo ">> Who am I?"
+                    whoami
+
+                    echo ">> Is sudo installed?"
+                    which sudo || echo "sudo NOT FOUND"
+
+                    echo ">> Can I run apt update?"
+                    apt update || echo "apt failed"
+                '''
+            }
+        }
         stage('Test') {
             when{
                 expression { params.test == true }
