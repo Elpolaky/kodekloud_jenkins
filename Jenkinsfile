@@ -8,23 +8,21 @@ pipeline {
         SERVER_IP = credentials('server_ip')
     }
     stages {
+        // stage('Setup') {
+        //     steps {
+        //         withCredentials([usernamePassword(credentialsId: 'userData', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
 
-
-        stage('Setup') {
-            steps {
-                withCredentials([usernamePassword(credentialsId: 'userData', usernameVariable: "myuser", passwordVariable: "mypassword")]) {
-
-                    sh '''
-                    echo user is : ${myuser}
-                    echo password is : ${mypassword}
-                    '''
-                }
-                // sh "sudo apt update"
-                // sh "sudo apt install python3-xyz"
-                // sh "pip install -r requirements.txt"
+        //             sh '''
+        //             echo user is : ${myuser}
+        //             echo password is : ${mypassword}
+        //             '''
+        //         }
+        //         // sh "sudo apt update"
+        //         // sh "sudo apt install python3-xyz"
+        //         // sh "pip install -r requirements.txt"
             
-            }
-        }
+        //     }
+        // }
         stage('Test') {
             when{
                 expression { params.test == true }
