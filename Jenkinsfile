@@ -64,8 +64,7 @@ pipeline {
                 echo "Running Deployment"
                 withCredentials([sshUserPrivateKey(credentialsId: 'ssh-key', keyFileVariable: 'MY_SSH_KEY', usernameVariable: 'username')]) {
                     sh """
-                        echo "Copying to server: \$SERVER_IP"
-                        ssh-keyscan -H \$SERVER_IP >> ~/.ssh/known_hosts
+                    
 
                         scp -i \$MY_SSH_KEY -o StrictHostKeyChecking=no myapp.zip \${username}@\${SERVER_IP}:/home/ubuntu/
 
