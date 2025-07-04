@@ -1,6 +1,8 @@
 pipeline {
     agent any
-
+    parameters{
+        boolean(name: 'test' , defaultValue: true )
+    }
     stages {
 
 
@@ -20,6 +22,9 @@ pipeline {
             }
         }
         stage('Test') {
+            when{
+                experession { params.test }
+            }
             steps {
                 //echo "sh 'pytest'"
                 echo "Running Tests"
@@ -27,6 +32,10 @@ pipeline {
             }
         }    
         stage('Deployment') {
+            input {
+                message " Deploy or not ????"
+                ok "Yes"
+            }
             steps {
                 // echo 'input {
                 //     message "Do you want to proceed further?"
