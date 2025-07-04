@@ -55,6 +55,8 @@ pipeline {
                 echo "Preparing Code"
                 sh "zip -r myapp.zip ./* -x '**.git**'"
                 sh "ls -lart"
+                sh "pwd"
+
             }
         }
         stage('Deployment') {
