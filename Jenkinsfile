@@ -23,7 +23,7 @@ pipeline {
         }
         stage('Test') {
             when{
-                experession { params.test }
+                experession { params.test == true}
             }
             steps {
                 //echo "sh 'pytest'"
