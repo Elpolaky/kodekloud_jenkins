@@ -27,6 +27,7 @@ pipeline {
         stage('Check Environment') {
             steps {
                 sh '''
+                    echo ${SERVER_IP}
                     echo ">> Who am I?"
                     whoami
 
