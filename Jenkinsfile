@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters{
-        boolean(name: 'test' , defaultValue: true )
+        booleanParam(name: 'test' , defaultValue: true )
     }
     stages {
 
@@ -33,7 +33,7 @@ pipeline {
         }    
         stage('Deployment') {
             input {
-                message " Deploy or not ????"
+                message " Deploy or not ?????"
                 ok "Yes"
             }
             steps {
