@@ -6,7 +6,7 @@ pipeline {
     environment {
         //SERVER_IP = credentials('server_ip')
         Image_Name = "albolaqi/todo_app"
-        Image_Tag = ${Image_Name}:${env.GIT_COMMIT}
+        Image_Tag = "${Image_Name}:${env.GIT_COMMIT}"
     }
     stages {
         stage('Check Environment') {
