@@ -1,0 +1,67 @@
+pipeline {
+    agent any
+    parameters {
+        booleanParam(name: 'test', defaultValue: true)
+    }
+    environment {
+        //SERVER_IP = credentials('server_ip')
+        Image_Name = "albolaqi/todo_app"
+        Image_Tag = ${Image_Name}:${env.GIT_COMMIT}
+    }
+    stages {
+        stage('Check Environment') {
+            steps {
+                sh '''
+                    echo ${SERVER_IP}
+                    echo ">> Who am I?"
+                    whoami
+
+                    echo ">> Is sudo installed?"
+                    which sudo || echo "sudo NOT FOUND"
+
+                    echo ">> Can I run apt update?"
+                    apt update || echo "apt failed"
+                '''
+            }
+        }
+
+        stage('Test') {
+            when {
+                expression { params.test == true }
+            }
+            steps {
+                echo "Running Tests"
+            }
+        }
+        stage (' Docker log in'){
+            steps {
+                echo "Logging into Docker"
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+                    sh '''
+                        echo "Logging into Docker Hub"
+                        docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+                        echo "Logged into Docker Hub successfully"
+                    '''
+                }
+            }
+        }
+        stage('Docker Build'){
+            steps {
+                echo "Building Docker Image"
+                sh '''
+                    docker build -t ${Image_Tag} .
+                    echo "Docker Image built successfully"
+                '''
+            }
+        }
+        stage('Docker Push'){
+            steps {
+                echo "Pushing Docker Image to Docker Hub"
+                sh '''
+                    docker push ${Image_Tag}
+                    echo "Docker Image pushed successfully"
+                '''
+            }
+        }
+    }
+}
