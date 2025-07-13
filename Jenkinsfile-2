@@ -38,6 +38,7 @@ pipeline {
                 echo "Logging into Docker"
                 withCredentials([usernamePassword(credentialsId: 'dockerhub-credentials', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh '''
+                        unset DOCKER_TLS_VERIFY DOCKER_CERT_PATH
                         echo "Logging into Docker Hub"
                         echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin
                         echo "Logged into Docker Hub successfully!!"
