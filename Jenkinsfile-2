@@ -1,8 +1,6 @@
 pipeline {
     agent any
-    parameters {
-        booleanParam(name: 'test', defaultValue: true)
-    }
+   
     environment {
         //SERVER_IP = credentials('server_ip')
         Image_Name = "albolaqi/todo_app"
@@ -26,9 +24,7 @@ pipeline {
         }
 
         stage('Test') {
-            when {
-                expression { params.test == true }
-            }
+          
             steps {
                 echo "Running Tests"
             }
