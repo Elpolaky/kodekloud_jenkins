@@ -50,6 +50,7 @@ pipeline {
             steps {
                 echo "Building Docker Image"
                 sh '''
+                    unset DOCKER_TLS_VERIFY DOCKER_CERT_PATH
                     docker build -t ${Image_Tag} .
                     echo "Docker Image built successfully"
                 '''
@@ -59,6 +60,7 @@ pipeline {
             steps {
                 echo "Pushing Docker Image to Docker Hub"
                 sh '''
+                    unset DOCKER_TLS_VERIFY DOCKER_CERT_PATH
                     docker push ${Image_Tag}
                     echo "Docker Image pushed successfully"
                 '''
