@@ -40,7 +40,7 @@ pipeline {
                     sh '''
                         echo "Logging into Docker Hub"
                         docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-                        echo "Logged into Docker Hub successfully"
+                        echo "Logged into Docker Hub successfully!!"
                     '''
                 }
             }
